@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the trained model
-model1 = joblib.load('models\STACKED-SVR_RF.joblib')
+model1 = joblib.load('models\SVR_RF_STACKED.joblib')
 model2 = joblib.load('models\model_boeke.sav')
 
 @app.route('/typhoonista/predict', methods=['POST'])
