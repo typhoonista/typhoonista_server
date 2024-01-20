@@ -34,6 +34,36 @@ def predict2():
 
     except Exception as e:
         return jsonify({"error": str(e)})
+
+@app.route('/get_coordinates', methods=['GET'])
+def get_coordinates():
+    location_input = request.args.get('location_input', '')
+
+    api_url = "https://api-v2.distancematrix.ai/maps/api/geocode/json?"
+    api_key = "12gi8PRlBX15xzT44xBqmaTObXMklEZrp6imGFmvNJtgZFVVfloDvfZBnXuC9aZN"
+
+    params = {
+        "address": location_input,
+        "key": api_key
+    }
+
+    response = request.get(api_url, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+
+        if 'results' in data and data['results']:
+            location = data['results'][0]['geometry']['location']
+            latitude = location['lat']
+            longitude = location['lng']
+
+            result = {"latitude": latitude, "longitude": longitude}
+            return jsonify(result)
+        else:
+            return jsonify({"error": "No results found in the response."}), 400
+    else:
+        return jsonify({"error": f"Error: {response.status_code}, {response.text}"}), 500
+
     
 if __name__ == '__main__':
     app.run(host= '0.0.0.0', port=5000)
