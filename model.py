@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the trained model
-model1 = joblib.load('SVR_RF_STACKED.joblib')
+model1 = joblib.load('STACKED-SVR_RF_FINAL.joblib')
 model2 = joblib.load('model_boeke.sav')
 
 
@@ -35,15 +35,15 @@ def predict():
     except Exception as e:
         return jsonify({"error": str(e)})
 
-@app.route('/boeke/predict', methods=['POST'])
-def predict2():
-    try:
-        print(model2)
-        data = request.get_json(force=True)
-        input_data = np.array(data['features'])
-        input_data_2d = input_data.reshape(1, -1)
-        prediction = model2.predict(input_data_2d)
-        return jsonify({"prediction": prediction.tolist()})
+# @app.route('/boeke/predict', methods=['POST'])
+# def predict2():
+#     try:
+#         print(model2)
+#         data = request.get_json(force=True)
+#         input_data = np.array(data['features'])
+#         input_data_2d = input_data.reshape(1, -1)
+#         prediction = model2.predict(input_data_2d)
+#         return jsonify({"prediction": prediction.tolist()})
 
     except Exception as e:
         return jsonify({"error": str(e)})
