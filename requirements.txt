@@ -2,6 +2,6 @@ Flask
 Gunicorn
 Numpy
 Joblib
-scikit-learn==1.2.0
+scikit-learn
 flask_cors
 requests
