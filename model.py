@@ -30,7 +30,7 @@ def predict():
         input_data = np.array(data['features'])
         input_data_2d = input_data.reshape(1, -1)
         prediction = model1.predict(input_data_2d)
-        return jsonify({prediction.tolist()})
+        return jsonify({"prediction": prediction.tolist()})
 
     except Exception as e:
         return jsonify({"error": str(e)})
