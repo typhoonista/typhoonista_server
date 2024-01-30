@@ -30,10 +30,9 @@ def predict():
         input_data = np.array(data['features'])
         input_data_2d = input_data.reshape(1, -1)
         prediction = model1.predict(input_data_2d)
-        return jsonify({"prediction": prediction.tolist()})
-
+        return str(prediction[0])  # Return the prediction value as a string
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return str(e)  # Handle exceptions if necessary
 
 # @app.route('/boeke/predict', methods=['POST'])
 # def predict2():
