@@ -8,9 +8,13 @@ app = Flask(__name__)
 CORS(app)
 
 # Load the trained model
-model1 = joblib.load('STACKED-SVR_RF_FINAL.joblib')
-model2 = joblib.load('model_boeke.sav')
-
+typhoonista_model = joblib.load('STACKED-SVR_RF_FINAL.joblib')
+damagedArea_model = joblib.load('STACKED-SVR_RF-DAREA.joblib')
+distance_model = joblib.load('STACKED-SVR_RF-DISTANCE.joblib')
+damagedYield_model = joblib.load('STACKED-SVR_RF-DYIELD.joblib')
+rainfall24_model = joblib.load('STACKED-SVR_RF-RAINFALL24.joblib')
+rainfall6_model = joblib.load('STACKED-SVR_RF-RAINFALL6.joblib')
+windspeed_model = joblib.load('STACKED-SVR_RF-WS.joblib')
 
 def convert_to_serializable(data):
     # Convert non-serializable parts of the data to a serializable format
@@ -24,28 +28,82 @@ def convert_to_serializable(data):
         return {"error": "No results found in the response."}
 
 @app.route('/typhoonista/predict', methods=['POST'])
-def predict():
+def predict1():
     try:
         data = request.get_json(force=True)
         input_data = np.array(data['features'])
         input_data_2d = input_data.reshape(1, -1)
-        prediction = model1.predict(input_data_2d)
+        prediction = typhoonista_model.predict(input_data_2d)
         return str(prediction[0])  # Return the prediction value as a string
     except Exception as e:
         return str(e)  # Handle exceptions if necessary
 
-# @app.route('/boeke/predict', methods=['POST'])
-# def predict2():
-#     try:
-#         print(model2)
-#         data = request.get_json(force=True)
-#         input_data = np.array(data['features'])
-#         input_data_2d = input_data.reshape(1, -1)
-#         prediction = model2.predict(input_data_2d)
-#         return jsonify({"prediction": prediction.tolist()})
-
+@app.route('/damaged-area/predict', methods=['POST'])
+def predict2():
+    try:
+        data = request.get_json(force=True)
+        input_data = np.array(data['features'])
+        input_data_2d = input_data.reshape(1, -1)
+        prediction = damagedArea_model.predict(input_data_2d)
+        return str(prediction[0])  # Return the prediction value as a string
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return str(e)  # Handle exceptions if necessary
+    
+@app.route('/distance/predict', methods=['POST'])
+def predict3():
+    try:
+        data = request.get_json(force=True)
+        input_data = np.array(data['features'])
+        input_data_2d = input_data.reshape(1, -1)
+        prediction = distance_model.predict(input_data_2d)
+        return str(prediction[0])  # Return the prediction value as a string
+    except Exception as e:
+        return str(e)  # Handle exceptions if necessary
+
+@app.route('/damaged-yield/predict', methods=['POST'])
+def predict4():
+    try:
+        data = request.get_json(force=True)
+        input_data = np.array(data['features'])
+        input_data_2d = input_data.reshape(1, -1)
+        prediction = damagedYield_model.predict(input_data_2d)
+        return str(prediction[0])  # Return the prediction value as a string
+    except Exception as e:
+        return str(e)  # Handle exceptions if necessary
+
+@app.route('/rainfall24/predict', methods=['POST'])
+def predict5():
+    try:
+        data = request.get_json(force=True)
+        input_data = np.array(data['features'])
+        input_data_2d = input_data.reshape(1, -1)
+        prediction = rainfall24_model.predict(input_data_2d)
+        return str(prediction[0])  # Return the prediction value as a string
+    except Exception as e:
+        return str(e)  # Handle exceptions if necessary
+
+@app.route('/rainfall6h/predict', methods=['POST'])
+def predict6():
+    try:
+        data = request.get_json(force=True)
+        input_data = np.array(data['features'])
+        input_data_2d = input_data.reshape(1, -1)
+        prediction = rainfall6_model.predict(input_data_2d)
+        return str(prediction[0])  # Return the prediction value as a string
+    except Exception as e:
+        return str(e)  # Handle exceptions if necessary
+
+@app.route('/windspeed/predict', methods=['POST'])
+def predict7():
+    try:
+        data = request.get_json(force=True)
+        input_data = np.array(data['features'])
+        input_data_2d = input_data.reshape(1, -1)
+        prediction = windspeed_model.predict(input_data_2d)
+        return str(prediction[0])  # Return the prediction value as a string
+    except Exception as e:
+        return str(e)  # Handle exceptions if necessary
+
 
 @app.route('/get_coordinates', methods=['POST'])
 def get_coordinates():
